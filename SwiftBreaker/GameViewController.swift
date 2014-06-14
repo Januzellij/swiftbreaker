@@ -69,15 +69,18 @@ class GameViewController: UIViewController {
     }
     
     func findXforRotation(rotation: Double) -> CGFloat {
+        // I am extremely proud of this function. It took two days.
+        
         // 30 degrees = pi/6 radians
         // -30 degrees = all the way to the left
         // 30 degrees = all the way to the right
-        // Function that takes in rotation from -pi/6 to pi/6 and spits out x value from 0 to screen width
+        // Maps a rotation from -pi/6 to pi/6 to x value from 0 to screen width
         let floatRotation = CGFloat(rotation)
         let halfRange: CGFloat = CGFloat(M_PI)/6, range: CGFloat = CGFloat(M_PI)/3
         if floatRotation >= halfRange { return self.view.frame.width }
         else if floatRotation <= -halfRange { return 0 }
         else {
+            // aligns negative to postive radian range with 0 to positive screen width range
             let scaledRotation = floatRotation + halfRange
             let widthFraction = scaledRotation / range
             return widthFraction * self.view.frame.width
