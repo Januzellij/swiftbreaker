@@ -12,17 +12,24 @@ import CoreMotion
 
 class GameViewController: UIViewController {
     
+    @IBOutlet var startButton : UIButton
+    @IBAction func startTapped(sender : UIButton) {
+        start()
+    }
+    
     let motionManager = CMMotionManager()
     var scene: GameScene!
+    
+    override func awakeFromNib() {
+        scene = GameScene(size: self.view.bounds.size)
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.scene = GameScene(size: self.view.bounds.size)
-        
         /* Set the scale mode to scale to fit the window */
         scene.scaleMode = .AspectFill
-
+        
         let skView = self.view as SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -31,20 +38,13 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         skView.presentScene(scene)
+        
+        //let startGesture = UITapGestureRecognizer(target: self, action: "start")
+        //self.view.addGestureRecognizer(startGesture)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        motionManager.deviceMotionUpdateInterval = 1/60
-        if motionManager.deviceMotionAvailable {
-            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: {data, error in
-                let roll = data.attitude.roll
-                let paddle = self.scene.childNodeWithName("Paddle")
-                let paddleMove = SKAction.moveToX(self.findXforRotation(roll), duration: 1/60)
-                paddle.runAction(paddleMove)
-            } )
-        }
         
         //NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "log", userInfo: nil, repeats: true)
     }
@@ -60,6 +60,20 @@ class GameViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
+    }
+    
+    func start() {
+        motionManager.deviceMotionUpdateInterval = 1/60
+        if motionManager.deviceMotionAvailable {
+            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: {data, error in
+                let roll = data.attitude.roll
+                let paddle = self.scene.childNodeWithName("Paddle")
+                let paddleMove = SKAction.moveToX(self.findXforRotation(roll), duration: 1/60)
+                paddle.runAction(paddleMove)
+                } )
+        }
+        
+        scene.start()
     }
     
     func log() {
