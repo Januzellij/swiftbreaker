@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
     var scene: GameScene!
     
     override func awakeFromNib() {
-        scene = GameScene(size: self.view.bounds.size)
+        scene = GameScene(size: view.bounds.size)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -38,9 +38,6 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         skView.presentScene(scene)
-        
-        //let startGesture = UITapGestureRecognizer(target: self, action: "start")
-        //self.view.addGestureRecognizer(startGesture)
     }
     
     override func viewDidLoad() {

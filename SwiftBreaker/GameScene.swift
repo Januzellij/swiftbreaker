@@ -13,13 +13,13 @@ class GameScene: SKScene {
     init(size: CGSize) {
         super.init(size: size)
         
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         let edges = SKNode()
         edges.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.frame)
         edges.physicsBody.friction = 0
         edges.physicsBody.restitution = 1
-        self.addChild(edges)
+        addChild(edges)
         
         // I should probably make an extension with easy SKNode factory methods to get rid of this bloody boilerplate
         
@@ -30,7 +30,7 @@ class GameScene: SKScene {
         brick.physicsBody.friction = 0
         brick.physicsBody.restitution = 1
         brick.physicsBody.dynamic = false
-        self.addChild(brick)
+        addChild(brick)
         
         let paddle = SKSpriteNode(color: UIColor.redColor(), size: CGSize(width: 60, height: 10))
         paddle.position = CGPoint(x: CGRectGetMidX(self.frame), y: 100)
@@ -39,7 +39,7 @@ class GameScene: SKScene {
         paddle.physicsBody.friction = 0
         paddle.physicsBody.restitution = 1
         paddle.physicsBody.dynamic = false
-        self.addChild(paddle)
+        addChild(paddle)
         
         let ball = SKShapeNode(circleOfRadius: 5)
         ball.fillColor = UIColor.whiteColor()
@@ -54,7 +54,7 @@ class GameScene: SKScene {
         ball.physicsBody.linearDamping = 0
         ball.physicsBody.usesPreciseCollisionDetection = true
         
-        self.addChild(ball)
+        addChild(ball)
     }
    
     override func update(currentTime: CFTimeInterval) {
@@ -62,7 +62,7 @@ class GameScene: SKScene {
     }
     
     func start() {
-        let ball = self.childNodeWithName("Ball")
+        let ball = childNodeWithName("Ball")
         ball.physicsBody.applyImpulse(CGVector(dx: 200, dy: 200))
     }
 }
