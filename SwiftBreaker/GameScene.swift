@@ -8,6 +8,21 @@
 
 import SpriteKit
 
+extension UIColor {
+    class func randomColor() -> UIColor {
+        let colors: Dictionary<UInt32, UIColor> = [
+            1: UIColor.purpleColor(),
+            2: UIColor.greenColor(),
+            3: UIColor.redColor(),
+            4: UIColor.orangeColor(),
+            5: UIColor.grayColor(),
+            6: UIColor.blueColor()
+        ]
+        let randomIndex = arc4random_uniform(6) + 1
+        return colors[randomIndex]!
+    }
+}
+
 class GameScene: SKScene {
     
     init(size: CGSize) {
@@ -23,7 +38,7 @@ class GameScene: SKScene {
         
         // I should probably make an extension with easy SKNode factory methods to get rid of this bloody boilerplate
         
-        let brick = SKSpriteNode(color: UIColor.orangeColor(), size: CGSize(width: 80, height: 50))
+        let brick = SKSpriteNode(color: UIColor.randomColor(), size: CGSize(width: 80, height: 50))
         brick.position = CGPoint(x: CGRectGetMidX(self.frame) , y: CGRectGetMidY(self.frame))
         brick.name = "Brick"
         brick.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 80, height: 50))
