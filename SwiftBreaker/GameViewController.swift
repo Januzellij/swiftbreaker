@@ -70,6 +70,8 @@ class GameViewController: UIViewController {
                 } )
         }
         
+        startButton.removeFromSuperview()
+        
         scene.start()
     }
     
